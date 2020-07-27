@@ -32,7 +32,12 @@ public class DemoApplication extends WebSecurityConfigurerAdapter{
         http
             .authorizeRequests(a -> a
                 .antMatchers("/", "/error", "/webjars/**").permitAll()
-                .anyRequest().authenticated()
+				.anyRequest().authenticated()
+			.logout(l -> l
+				.logoutSuccessUrl("/").permitAll() ) 
+			.csrf(c -> c 
+				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+			
             )
             .exceptionHandling(e -> e
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
